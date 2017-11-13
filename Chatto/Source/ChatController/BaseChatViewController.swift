@@ -35,6 +35,8 @@ open class BaseChatViewController: UIViewController, UICollectionViewDataSource,
         public var preferredMaxMessageCount: Int? = 500 // If not nil, will ask data source to reduce number of messages when limit is reached. @see ChatDataSourceDelegateProtocol
         public var preferredMaxMessageCountAdjustment: Int = 400 // When the above happens, will ask to adjust with this value. It may be wise for this to be smaller to reduce number of adjustments
         public var autoloadingFractionalThreshold: CGFloat = 0.05 // in [0, 1]
+        public let iPhoneXBottomPadding: CGFloat = UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436 ? 34.0 : 0 //is iphone X add safe area manually
+
     }
 
     public var constants = Constants()
@@ -131,7 +133,7 @@ open class BaseChatViewController: UIViewController, UICollectionViewDataSource,
         self.view.addSubview(self.collectionView)
         self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .top, relatedBy: .equal, toItem: self.collectionView, attribute: .top, multiplier: 1, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: self.collectionView, attribute: .leading, multiplier: 1, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: self.collectionView, attribute: .bottom, multiplier: 1, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: self.collectionView, attribute: .bottom, multiplier: 1, constant: self.constants.iPhoneXBottomPadding))
         self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: self.collectionView, attribute: .trailing, multiplier: 1, constant: 0))
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
